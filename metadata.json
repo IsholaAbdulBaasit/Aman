@@ -1,0 +1,6 @@
+{
+  "name": "أمان (Amān) - Technology & Safety Awareness",
+  "description": "Educational platform helping everyday people understand technology, recognize digital risks, and make safer decisions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

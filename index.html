@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (function() {
+        function isExtensionError(text) {
+          if (!text) return false;
+          var s = String(text).toLowerCase();
+          return (
+            s.indexOf('metamask') !== -1 ||
+            s.indexOf('ethereum') !== -1 ||
+            s.indexOf('web3') !== -1 ||
+            s.indexOf('failed to connect') !== -1 ||
+            s.indexOf('inpage') !== -1 ||
+            s.indexOf('contentscript') !== -1 ||
+            s.indexOf('extension') !== -1
+          );
+        }
+
+        var origError = console.error;
+        console.error = function() {
+          for (var i = 0; i < arguments.length; i++) {
+            var arg = arguments[i];
+            var msg = (arg && (arg.message || arg.stack)) ? (arg.message + ' ' + arg.stack) : String(arg);
+            if (isExtensionError(msg)) {
+              return;
+            }
+          }
+          return origError.apply(console, arguments);
+        };
+
+        var origWarn = console.warn;
+        console.warn = function() {
+          for (var i = 0; i < arguments.length; i++) {
+            var arg = arguments[i];
+            var msg = (arg && (arg.message || arg.stack)) ? (arg.message + ' ' + arg.stack) : String(arg);
+            if (isExtensionError(msg)) {
+              return;
+            }
+          }
+          return origWarn.apply(console, arguments);
+        };
+
+        window.addEventListener('unhandledrejection', function(event) {
+          var reason = event && event.reason;
+          var msg = (reason && (reason.message || reason.stack)) ? (reason.message + ' ' + reason.stack) : String(reason);
+          if (isExtensionError(msg)) {
+            event.preventDefault();
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+            if (event.stopPropagation) event.stopPropagation();
+            return false;
+          }
+        }, true);
+
+        window.addEventListener('error', function(event) {
+          var msg = event && (event.message || '');
+          var src = event && (event.filename || '');
+          if (isExtensionError(msg) || isExtensionError(src)) {
+            event.preventDefault();
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+            if (event.stopPropagation) event.stopPropagation();
+            return false;
+          }
+        }, true);
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>أمان (Amān) — Technology, Cybersecurity & Safety Awareness</title>
+    <meta name="description" content="أمان (Amān) helps everyday people understand technology, recognize digital risks, and take practical steps to protect themselves online and in everyday life." />
+    <meta property="og:title" content="أمان (Amān) — Technology, Cybersecurity & Safety Awareness" />
+    <meta property="og:description" content="Practical guides to help you recognize digital risks, protect your information, and make safer decisions." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230B1F33'/><text x='50%' y='60%' font-family='IBM Plex Sans Arabic, sans-serif' font-size='52' font-weight='bold' fill='%23FFFFFF' text-anchor='middle' dominant-baseline='middle'>أمان</text></svg>" />
+  </head>
+  <body class="bg-[#F8F9F7] text-[#17202A] antialiased selection:bg-[#0E7490] selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

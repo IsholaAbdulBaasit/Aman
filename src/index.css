@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-primary: #0B1F33;
+    --color-background: #F8F9F7;
+    --color-surface: #FFFFFF;
+    --color-text: #17202A;
+    --color-text-muted: #5F6B76;
+    --color-accent: #0E7490;
+    --color-danger: #B42318;
+    --color-success: #18794E;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+  }
+
+  .font-arabic {
+    font-family: 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
+  }
+}
